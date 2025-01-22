@@ -1,10 +1,18 @@
+import { MenuItem, Select } from '@mui/material'
 import React from 'react'
 
-const SingleDrodown = () => {
+const SingleDrodown = ({options , value , onChange}) => {
   return (
-    <div>
-      
-    </div>
+    <Select value={value} onChange={(e)=> onChange(e.target.value)} >
+        <MenuItem value="" disabled>
+            Select an option 
+        </MenuItem>
+        {
+            options.map((option)=>(
+                <MenuItem key={option}>{option}</MenuItem>
+            ))
+        }
+    </Select>
   )
 }
 
