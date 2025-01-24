@@ -9,18 +9,34 @@ import {
   Box,
   Typography,
   TextField,
+  Slider,
 } from "@mui/material";
 import SingleDropdown from "./SingleDropdown";
 import MultipleDropdown from "./MultipleDropdown";
 
 const DynamicTable = () => {
-  const [rows, setRows] = useState([{ id: 1, singleSelect: "", multiSelect: [] }]);
-  const [singleOptions, setSingleOptions] = useState(["Manager", "Developer", "Designer","Intern"]);
-  const [multiOptions, setMultiOptions] = useState(["React", "JavaScript", "Node.js","MongoDb",]);
+  const [rows, setRows] = useState([
+    { id: 1, singleSelect: "", multiSelect: [], proficiency: {} },
+  ]);
+  const [singleOptions, setSingleOptions] = useState([
+    "Manager",
+    "Developer",
+    "Designer",
+    "Intern",
+  ]);
+  const [multiOptions, setMultiOptions] = useState([
+    "React",
+    "JavaScript",
+    "Node.js",
+    "MongoDb",
+  ]);
 
   // Add new row
-  const addRow = (e) => {
-    setRows([...rows, { id: rows.length + 1, singleSelect: "", multiSelect: [] }]);
+  const addRow = () => {
+    setRows([
+      ...rows,
+      { id: rows.length + 1, singleSelect: "", multiSelect: [], proficiency: {} },
+    ]);
   };
 
   // Update row data
@@ -30,13 +46,31 @@ const DynamicTable = () => {
     );
   };
 
+  // Update proficiency for a specific skill
+  const updateProficiency = (rowId, skill, value) => {
+    setRows((prev) =>
+      prev.map((row) => {
+        if (row.id === rowId) {
+          return {
+            ...row,
+            proficiency: {
+              ...row.proficiency,
+              [skill]: value,
+            },
+          };
+        }
+        return row;
+      })
+    );
+  };
+
   return (
     <Box
       sx={{
         padding: "16px",
-        maxWidth: "800px",
+        maxWidth: "1000px",
         margin: "0 auto",
-        marginTop:"50px",
+        marginTop: "50px",
         backgroundColor: "#f9f9f9",
         borderRadius: "8px",
         boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
@@ -48,8 +82,16 @@ const DynamicTable = () => {
       <Table>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1976d2" }}>
-            <TableCell sx={{ color: "#fff", fontWeight: "bold", textAlign:"center",  fontSize:"20px" }}>Role</TableCell>
-            <TableCell sx={{ color: "#fff", fontWeight: "bold",textAlign:"center", fontSize:"20px" }}>Skills</TableCell>
+            <TableCell
+              sx={{ color: "#fff", fontWeight: "bold", textAlign: "center", fontSize: "20px" }}
+            >
+              Role
+            </TableCell>
+            <TableCell
+              sx={{ color: "#fff", fontWeight: "bold", textAlign: "center", fontSize: "20px" }}
+            >
+              Skills
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,6 +126,25 @@ const DynamicTable = () => {
                     updateRow(row.id, "multiSelect", [...row.multiSelect, newOption]);
                   }}
                 />
+
+                {/* Skill Proficiency Sliders */}
+                {row.multiSelect.map((skill) => (
+                  <Box key={skill} sx={{ marginTop: "16px" }}>
+                    <Typography>{skill} Proficiency:</Typography>
+                    <Slider
+                      value={row.proficiency[skill] || 50}
+                      onChange={(e, newValue) =>
+                        updateProficiency(row.id, skill, newValue)
+                      }
+                      step={10}
+                      marks
+                      min={0}
+                      max={100}
+                      valueLabelDisplay="auto"
+                      sx={{ width: "80%" }}
+                    />
+                  </Box>
+                ))}
               </TableCell>
             </TableRow>
           ))}
