@@ -46,7 +46,7 @@ Prerequisites- Node.js (v14 or later) and npm or yarn package manager
 ## Steps
 
 1. Clone the repository:
-git clone <repository-url>
+git clone https://github.com/ktiya23/Employee_Skill_Management.git
 
 2. Navigate to the project directory:
 cd project-root
