@@ -76,6 +76,9 @@ The selected role will appear in the text field below the dropdown.
 3. Adding Rows:
 - Click the "Add Row" button to add a new entry.
 
+4. Skill Proficiency Sliders:
+- Add a Sliders to let employee rate themselves based on their skills.
+
 **Technologies Used**
 
 - React: For building the UI and managing state.
