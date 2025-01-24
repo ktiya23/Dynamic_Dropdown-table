@@ -10,6 +10,9 @@ This React project demonstrates a dynamic table that allows users to:
 - Add new rows dynamically to manage multiple entries.
 - The UI is styled using Material-UI (MUI) components for a clean and responsive design.
 
+**Deployed Link**
+https://marvelous-jalebi-2bb3aa.netlify.app/
+
 **Features**
 
 1. Role Selection:
