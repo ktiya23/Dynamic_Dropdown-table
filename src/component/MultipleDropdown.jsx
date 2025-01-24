@@ -1,36 +1,51 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { Autocomplete, Button, TextField, Box } from "@mui/material";
 
 const MultipleDropdown = ({ options, value, onChange, onAddOption }) => {
   const [newOption, setNewOption] = useState("");
+
   return (
-    <div>
+    <Box>
+      {/* Multi-select Dropdown */}
       <Autocomplete
         multiple
         options={options}
         value={value}
         onChange={(e, newValue) => onChange(newValue)}
-        renderInput={(params) => <TextField {...params} label="Select Items" />}
+        renderInput={(params) => <TextField {...params} label="Select Skills" />}
+        fullWidth
+        sx={{
+          backgroundColor: "#fff",
+          borderRadius: "4px",
+        }}
       />
 
-      <div style={{ marginTop: "8px" }}>
+      {/* Add New Skill Input */}
+      <Box sx={{ display: "flex", gap: "8px", marginTop: "8px" }}>
         <TextField
           value={newOption}
           onChange={(e) => setNewOption(e.target.value)}
-          placeholder="Add new item"
+          placeholder="Add new skill"
+          fullWidth
+          size="small"
+          sx={{
+            backgroundColor: "#fff",
+          }}
         />
         <Button
           variant="contained"
           onClick={() => {
-            onAddOption(newOption);
-            setNewOption("");
+            if (newOption.trim()) {
+              onAddOption(newOption.trim());
+              setNewOption("");
+            }
           }}
           disabled={!newOption.trim()}
         >
           Add
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

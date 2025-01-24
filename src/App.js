@@ -1,10 +1,10 @@
 import './App.css';
-import Table from './component/Table';
+import DynamicTable from './component/DynamicTable';
 
 function App() {
   return (
     <div >
-      <Table/>
+      <DynamicTable />
     </div>
   );
 }
