@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+## Dynamic Table with Role and Skills Management ##
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Overview**
 
-## Available Scripts
+This React project demonstrates a dynamic table that allows users to:
 
-In the project directory, you can run:
+- Select a role from a dropdown menu and display the selected role in a text field.
+- Add and manage multiple skills through a multi-select dropdown.
+- Add new skills dynamically, which immediately appear in the dropdown options
+- Add new rows dynamically to manage multiple entries.
+- The UI is styled using Material-UI (MUI) components for a clean and responsive design.
 
-### `npm start`
+**Features**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Role Selection:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- A dropdown menu allows selecting roles (e.g., Manager, Developer, Designer).
+- The selected role is displayed in a disabled text field below the dropdown.
 
-### `npm test`
+2. Skills Management:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- A multi-select dropdown allows selecting multiple skills for a user.
+- Users can add new skills dynamically through an input field, which immediately updates the dropdown options.
 
-### `npm run build`
+3. Dynamic Row Addition:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Users can add new rows to manage additional entries.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Project Structure**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+project-root
+├── src
+│   ├── components
+│   │   ├── DynamicTable.jsx        # Main table component
+│   │   ├── SingleDropdown.jsx     # Single-select dropdown component for roles
+│   │   ├── MultipleDropdown.jsx   # Multi-select dropdown component for skills
+│   ├── App.jsx                    # Entry point for the application
+│   ├── index.css                  # Global CSS for the application
+├── package.json                   # Project dependencies and scripts
+└── README.md                      # Project documentation
 
-### `npm run eject`
+**Installation**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Prerequisites- Node.js (v14 or later) and npm or yarn package manager
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Steps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository:
+git clone <repository-url>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Navigate to the project directory:
+cd project-root
 
-## Learn More
+3. Install dependencies:
+npm install
+# or
+yarn install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. Start the development server:
+npm start
+# or
+yarn start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Open the application in your browser at http://localhost:3000.
 
-### Code Splitting
+**Usage**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Role Selection:
+Use the dropdown in the "Role" column to select a role for each row.
+The selected role will appear in the text field below the dropdown.
 
-### Analyzing the Bundle Size
+2. Skills Management:
+- Use the multi-select dropdown in the "Skills" column to assign skills.
+- Add a new skill using the input field and "Add" button. The skill will immediately appear in the dropdown and be selectable.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. Adding Rows:
+- Click the "Add Row" button to add a new entry.
 
-### Making a Progressive Web App
+**Technologies Used**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- React: For building the UI and managing state.
+- Material-UI (MUI): For responsive and visually appealing components.
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
