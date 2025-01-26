@@ -8,7 +8,6 @@ import {
   Button,
   Box,
   Typography,
-  TextField,
   Slider,
 } from "@mui/material";
 import SingleDropdown from "./SingleDropdown";
@@ -28,10 +27,10 @@ const DynamicTable = () => {
     "React",
     "JavaScript",
     "Node.js",
-    "MongoDb",
+    "MongoDB",
   ]);
 
-  // Add new row
+  // Add a new row
   const addRow = () => {
     setRows([
       ...rows,
@@ -39,28 +38,29 @@ const DynamicTable = () => {
     ]);
   };
 
-  // Update row data
+  // Update a specific row's data
   const updateRow = (id, field, value) => {
     setRows((prev) =>
-      prev.map((row) => (row.id === id ? { ...row, [field]: value } : row))
+      prev.map((row) =>
+        row.id === id ? { ...row, [field]: value } : row
+      )
     );
   };
 
-  // Update proficiency for a specific skill
+  // Update proficiency for a skill
   const updateProficiency = (rowId, skill, value) => {
     setRows((prev) =>
-      prev.map((row) => {
-        if (row.id === rowId) {
-          return {
-            ...row,
-            proficiency: {
-              ...row.proficiency,
-              [skill]: value,
-            },
-          };
-        }
-        return row;
-      })
+      prev.map((row) =>
+        row.id === rowId
+          ? {
+              ...row,
+              proficiency: {
+                ...row.proficiency,
+                [skill]: value,
+              },
+            }
+          : row
+      )
     );
   };
 
@@ -83,12 +83,22 @@ const DynamicTable = () => {
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1976d2" }}>
             <TableCell
-              sx={{ color: "#fff", fontWeight: "bold", textAlign: "center", fontSize: "20px" }}
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                textAlign: "center",
+                fontSize: "20px",
+              }}
             >
               Role
             </TableCell>
             <TableCell
-              sx={{ color: "#fff", fontWeight: "bold", textAlign: "center", fontSize: "20px" }}
+              sx={{
+                color: "#fff",
+                fontWeight: "bold",
+                textAlign: "center",
+                fontSize: "20px",
+              }}
             >
               Skills
             </TableCell>
@@ -97,7 +107,6 @@ const DynamicTable = () => {
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.id}>
-              {/* Role Dropdown */}
               <TableCell>
                 <SingleDropdown
                   options={singleOptions.filter(
@@ -106,28 +115,17 @@ const DynamicTable = () => {
                   value={row.singleSelect}
                   onChange={(value) => updateRow(row.id, "singleSelect", value)}
                 />
-                <TextField
-                  value={row.singleSelect || ""}
-                  variant="outlined"
-                  size="small"
-                  sx={{ marginTop: "8px", width: "100%" }}
-                  disabled
-                />
               </TableCell>
 
-              {/* Skills Dropdown */}
               <TableCell>
                 <MultipleDropdown
                   options={multiOptions}
                   value={row.multiSelect}
-                  onChange={(value) => updateRow(row.id, "multiSelect", value)}
-                  onAddOption={(newOption) => {
-                    setMultiOptions((prev) => [...prev, newOption]);
-                    updateRow(row.id, "multiSelect", [...row.multiSelect, newOption]);
-                  }}
+                  onOptionsChange={(value) =>
+                    updateRow(row.id, "multiSelect", value)
+                  }
                 />
 
-                {/* Skill Proficiency Sliders */}
                 {row.multiSelect.map((skill) => (
                   <Box key={skill} sx={{ marginTop: "16px" }}>
                     <Typography>{skill} Proficiency:</Typography>

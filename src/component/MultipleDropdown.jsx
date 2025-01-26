@@ -1,50 +1,122 @@
 import React, { useState } from "react";
-import { Autocomplete, Button, TextField, Box } from "@mui/material";
+import {
+  Box,
+  Chip,
+  MenuItem,
+  Select,
+  TextField,
+  Button,
+  Typography,
+} from "@mui/material";
 
-const MultipleDropdown = ({ options, value, onChange, onAddOption }) => {
-  const [newOption, setNewOption] = useState("");
+const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
+  const [dropdownOptions, setDropdownOptions] = useState(options); // All available options
+  const [inputValue, setInputValue] = useState(""); // For custom input
+  const [open, setOpen] = useState(false); // To control the dropdown open/close state
+
+  // Handle selection of an existing option
+  const handleSelect = (selectedOption) => {
+    if (!value.includes(selectedOption)) {
+      onOptionsChange([...value, selectedOption]);
+    }
+  };
+
+  // Handle removing a selected option
+  const handleRemove = (option) => {
+    onOptionsChange(value.filter((item) => item !== option));
+  };
+
+  // Add a new custom option
+  const handleAddNewOption = () => {
+    if (inputValue && !dropdownOptions.includes(inputValue)) {
+      setDropdownOptions([...dropdownOptions, inputValue]); // Add to dropdown options
+      handleSelect(inputValue); // Automatically select the newly added option
+    }
+    setInputValue(""); // Clear input field
+  };
 
   return (
-    <Box>
-      {/* Multi-select Dropdown */}
-      <Autocomplete
+    <Box sx={{ width: "100%" }}>
+      {/* Selected Chips */}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 1,
+          paddingBottom: 1,
+        }}
+      >
+        {value.map((option) => (
+          <Chip
+            key={option}
+            label={option}
+            onDelete={() => handleRemove(option)}
+            sx={{ backgroundColor: "#1976d2", color: "#fff" }}
+          />
+        ))}
+      </Box>
+
+      {/* Dropdown */}
+      <Select
         multiple
-        options={options}
-        value={value}
-        onChange={(e, newValue) => onChange(newValue)}
-        renderInput={(params) => <TextField {...params} label="Select Skills" />}
+        value={value} // Display selected values
+        onChange={(e) => handleSelect(e.target.value)}
+        open={open}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        renderValue={(selected) =>
+          selected.length ? selected.join(", ") : "Select Skills"
+        }
+        displayEmpty
         fullWidth
+        size="small"
         sx={{
           backgroundColor: "#fff",
           borderRadius: "4px",
         }}
-      />
+      >
+        {/* Dropdown Options */}
+        {dropdownOptions.map((option) => (
+          <MenuItem
+            key={option}
+            value={option}
+            disabled={value.includes(option)} // Disable if already selected
+            onClick={() => handleSelect(option)} // Handle selection
+          >
+            {option}
+          </MenuItem>
+        ))}
 
-      {/* Add New Skill Input */}
-      <Box sx={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-        <TextField
-          value={newOption}
-          onChange={(e) => setNewOption(e.target.value)}
-          placeholder="Add new skill"
-          fullWidth
-          size="small"
+        {/* Divider & Add Input */}
+        <Box
           sx={{
-            backgroundColor: "#fff",
+            margin: "8px 16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
           }}
-        />
-        <Button
-          variant="contained"
-          onClick={() => {
-            if (newOption.trim()) {
-              onAddOption(newOption.trim());
-              setNewOption("");
-            }
-          }}
-          disabled={!newOption.trim()}
         >
-          Add
-        </Button>
-      </Box>
+          <TextField
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Add a new option"
+            size="small"
+            fullWidth
+          />
+          <Button
+            onClick={handleAddNewOption}
+            variant="contained"
+            size="small"
+            sx={{
+              textTransform: "none",
+              backgroundColor: "#1976d2",
+              ":hover": { backgroundColor: "#1565c0" },
+            }}
+          >
+            Add Option
+          </Button>
+        </Box>
+      </Select>
     </Box>
   );
 };
