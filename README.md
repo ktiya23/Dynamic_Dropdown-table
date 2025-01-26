@@ -11,7 +11,7 @@ This React project demonstrates a dynamic table that allows users to:
 - The UI is styled using Material-UI (MUI) components for a clean and responsive design.
 
 **Deployed Link**
-https://marvelous-jalebi-2bb3aa.netlify.app/
+https://frabjous-brioche-c17c1f.netlify.app/
 
 **Features**
 
