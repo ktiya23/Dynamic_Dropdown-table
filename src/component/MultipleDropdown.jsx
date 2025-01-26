@@ -6,19 +6,19 @@ import {
   Select,
   TextField,
   Button,
-  Typography,
 } from "@mui/material";
 
 const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
-  const [dropdownOptions, setDropdownOptions] = useState(options); // All available options
-  const [inputValue, setInputValue] = useState(""); // For custom input
-  const [open, setOpen] = useState(false); // To control the dropdown open/close state
+  const [dropdownOptions, setDropdownOptions] = useState(options); // All dropdown options
+  const [inputValue, setInputValue] = useState(""); // Input field value
+  const [open, setOpen] = useState(false); // Dropdown open state
 
-  // Handle selection of an existing option
+  // Handle adding a selected option
   const handleSelect = (selectedOption) => {
     if (!value.includes(selectedOption)) {
-      onOptionsChange([...value, selectedOption]);
+      onOptionsChange([...value, selectedOption]); // Add to selected values
     }
+    setInputValue(""); // Clear the input field
   };
 
   // Handle removing a selected option
@@ -26,13 +26,13 @@ const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
     onOptionsChange(value.filter((item) => item !== option));
   };
 
-  // Add a new custom option
+  // Add a custom new option
   const handleAddNewOption = () => {
     if (inputValue && !dropdownOptions.includes(inputValue)) {
       setDropdownOptions([...dropdownOptions, inputValue]); // Add to dropdown options
-      handleSelect(inputValue); // Automatically select the newly added option
+      onOptionsChange([...value, inputValue]); // Add to selected values
     }
-    setInputValue(""); // Clear input field
+    setInputValue(""); // Clear the input field
   };
 
   return (
@@ -59,14 +59,11 @@ const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
       {/* Dropdown */}
       <Select
         multiple
-        value={value} // Display selected values
-        onChange={(e) => handleSelect(e.target.value)}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
-        renderValue={(selected) =>
-          selected.length ? selected.join(", ") : "Select Skills"
-        }
+        value={[]} // Always show empty value to avoid conflicts
+        renderValue={() => null} // Prevent default rendering of value
         displayEmpty
         fullWidth
         size="small"
@@ -75,7 +72,7 @@ const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
           borderRadius: "4px",
         }}
       >
-        {/* Dropdown Options */}
+        {/* Existing Options */}
         {dropdownOptions.map((option) => (
           <MenuItem
             key={option}
@@ -87,7 +84,7 @@ const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
           </MenuItem>
         ))}
 
-        {/* Divider & Add Input */}
+        {/* Add New Option */}
         <Box
           sx={{
             margin: "8px 16px",
@@ -97,14 +94,14 @@ const MultipleDropdown = ({ options, value = [], onOptionsChange }) => {
           }}
         >
           <TextField
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Add a new option"
+            value={inputValue} // Controlled input
+            onChange={(e) => setInputValue(e.target.value)} // Update input value
+            placeholder="Add a new skill"
             size="small"
             fullWidth
           />
           <Button
-            onClick={handleAddNewOption}
+            onClick={handleAddNewOption} // Add new option
             variant="contained"
             size="small"
             sx={{

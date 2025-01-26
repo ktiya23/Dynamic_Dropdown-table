@@ -67,18 +67,26 @@ const DynamicTable = () => {
   return (
     <Box
       sx={{
-        padding: "16px",
-        maxWidth: "1000px",
+        padding: "24px",
+        maxWidth: "800px",
         margin: "0 auto",
         marginTop: "50px",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "8px",
-        boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+        backgroundColor: "#ffffff",
+        borderRadius: "12px",
+        boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Typography variant="h5" gutterBottom textAlign="center" color="#333">
+      <Typography
+        variant="h5"
+        gutterBottom
+        textAlign="center"
+        color="#333"
+        fontWeight="bold"
+        mb={2}
+      >
         Employee Skill Management
       </Typography>
+
       <Table>
         <TableHead>
           <TableRow sx={{ backgroundColor: "#1976d2" }}>
@@ -87,7 +95,7 @@ const DynamicTable = () => {
                 color: "#fff",
                 fontWeight: "bold",
                 textAlign: "center",
-                fontSize: "20px",
+                fontSize: "16px",
               }}
             >
               Role
@@ -97,17 +105,17 @@ const DynamicTable = () => {
                 color: "#fff",
                 fontWeight: "bold",
                 textAlign: "center",
-                fontSize: "20px",
+                fontSize: "16px",
               }}
             >
-              Skills
+              Skills & Proficiency
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>
+            <TableRow key={row.id} sx={{ backgroundColor: "#f9f9f9" }}>
+              <TableCell sx={{ textAlign: "center" }}>
                 <SingleDropdown
                   options={singleOptions.filter(
                     (opt) => !rows.some((r) => r.singleSelect === opt)
@@ -118,47 +126,62 @@ const DynamicTable = () => {
               </TableCell>
 
               <TableCell>
-                <MultipleDropdown
-                  options={multiOptions}
-                  value={row.multiSelect}
-                  onOptionsChange={(value) =>
-                    updateRow(row.id, "multiSelect", value)
-                  }
-                />
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <MultipleDropdown
+                    options={multiOptions}
+                    value={row.multiSelect}
+                    onOptionsChange={(value) =>
+                      updateRow(row.id, "multiSelect", value)
+                    }
+                  />
 
-                {row.multiSelect.map((skill) => (
-                  <Box key={skill} sx={{ marginTop: "16px" }}>
-                    <Typography>{skill} Proficiency:</Typography>
-                    <Slider
-                      value={row.proficiency[skill] || 50}
-                      onChange={(e, newValue) =>
-                        updateProficiency(row.id, skill, newValue)
-                      }
-                      step={10}
-                      marks
-                      min={0}
-                      max={100}
-                      valueLabelDisplay="auto"
-                      sx={{ width: "80%" }}
-                    />
-                  </Box>
-                ))}
+                  {/* Loop through each selected skill and render its proficiency */}
+                  {row.multiSelect.map((skill) => (
+                    <Box key={skill} sx={{ marginTop: "8px" }}>
+                      {/* Proficiency heading for each skill */}
+                      <Typography variant="body2" color="#555">
+                        {skill} Proficiency:
+                      </Typography>
+
+                      {/* Slider for each skill's proficiency */}
+                      <Slider
+                        value={row.proficiency[skill] || 50}
+                        onChange={(e, newValue) =>
+                          updateProficiency(row.id, skill, newValue)
+                        }
+                        step={1}
+                        marks
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="auto"
+                        sx={{
+                          width: "50%",
+                          color: "#1976d2",
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Button
-        variant="contained"
-        onClick={addRow}
-        sx={{
-          marginTop: "16px",
-          backgroundColor: "#1976d2",
-          ":hover": { backgroundColor: "#1565c0" },
-        }}
-      >
-        Add Row
-      </Button>
+      <Box textAlign="center">
+        <Button
+          variant="contained"
+          onClick={addRow}
+          sx={{
+            marginTop: "20px",
+            backgroundColor: "#1976d2",
+            ":hover": { backgroundColor: "#1565c0" },
+            padding: "10px 20px",
+            fontWeight: "bold",
+          }}
+        >
+          Add Row
+        </Button>
+      </Box>
     </Box>
   );
 };
